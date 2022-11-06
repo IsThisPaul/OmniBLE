@@ -591,7 +591,7 @@ extension OmniBLEPumpManager {
         guard let podTimeRemaining = podTimeRemaining else {
             return nil;
         }
-        return max(0, Pod.serviceDuration - Pod.nominalPodLife + podTimeRemaining);
+        return Pod.serviceDuration - Pod.nominalPodLife + podTimeRemaining;
     }
     
     private func podDetails(fromPodState podState: PodState, andDeviceName deviceName: String?) -> PodDetails {

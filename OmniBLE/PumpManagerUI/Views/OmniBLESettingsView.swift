@@ -364,7 +364,7 @@ struct OmniBLESettingsView: View  {
                         .foregroundColor(Color.secondary)
                 }
                 
-                if let serviceTimeRemainingTI = viewModel.serviceTimeRemainingTI, serviceTimeRemainingTI < 28800 {
+                if let serviceTimeRemainingTI = viewModel.serviceTimeRemainingTI, serviceTimeRemainingTI < Pod.serviceDuration - Pod.nominalPodLife {
                    HStack {
                        FrameworkLocalText("Delivery Stoppage Timer", comment: "Label for insulin delivery stoppage timer row")
                        Spacer()
