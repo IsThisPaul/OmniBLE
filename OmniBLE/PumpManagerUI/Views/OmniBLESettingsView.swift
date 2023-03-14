@@ -47,7 +47,7 @@ struct OmniBLESettingsView: View  {
     }
     
     private var minutesRemaining: Int? {
-        if case .timeRemaining(let remaining, _) = viewModel.lifeState, remaining < .hours(2) {
+        if case .timeRemaining(let remaining, _) = viewModel.lifeState, remaining < .days(1) {
             return Int(remaining.minutes.truncatingRemainder(dividingBy: 60))
         }
         return nil
