@@ -229,7 +229,8 @@ class OmniBLESettingsViewModel: ObservableObject {
     
     let altRelFormatter: DateFormatter = {
         let fullDF = DateFormatter()
-        fullDF.dateFormat = "E 'at' h:mm a"
+        fullDF.locale = Locale.current
+        fullDF.setLocalizedDateFormatFromTemplate("E, hh:mm a")
         return fullDF
     }()
 
