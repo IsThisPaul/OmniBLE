@@ -44,10 +44,11 @@ class OmniBLESettingsViewModel: ObservableObject {
 
     var activatedAtString: String {
             if let activatedAt = activatedAt {
-                if dateFormatter.string(from: activatedAt) == absDateFormatter.string(from: activatedAt) {
+                print("ptm: relDateAndTimeFormatter :" + relDateAndTimeFormatter.string(from: activatedAt))
+                if relDateFormatter.string(from: activatedAt) == absDateFormatter.string(from: activatedAt) {
                     return altRelFormatter.string(from: activatedAt)
                 }
-                return dateFormatter.string(from: activatedAt)
+                return relDateAndTimeFormatter.string(from: activatedAt)
             } else {
                 return "—"
             }
@@ -55,10 +56,10 @@ class OmniBLESettingsViewModel: ObservableObject {
         
         var expiresAtString: String {
             if let expiresAt = expiresAt {
-                if dateFormatter.string(from: expiresAt) == absDateFormatter.string(from: expiresAt) {
+                if relDateFormatter.string(from: expiresAt) == absDateFormatter.string(from: expiresAt) {
                     return altRelFormatter.string(from: expiresAt)
                 }
-                return dateFormatter.string(from: expiresAt)
+                return relDateAndTimeFormatter.string(from: expiresAt)
             } else {
                 return "—"
             }
@@ -67,10 +68,10 @@ class OmniBLESettingsViewModel: ObservableObject {
     var deliveryStopsAtString: String {
         if let serviceTimeRemaining = pumpManager.podServiceTimeRemaining {
             let deliveryStopsAt = Date().addingTimeInterval(serviceTimeRemaining)
-            if dateFormatter.string(from: deliveryStopsAt) == absDateFormatter.string(from: deliveryStopsAt) {
+            if relDateFormatter.string(from: deliveryStopsAt) == absDateFormatter.string(from: deliveryStopsAt) {
                 return altRelFormatter.string(from: deliveryStopsAt)
             }
-            return dateFormatter.string(from: deliveryStopsAt)
+            return relDateAndTimeFormatter.string(from: deliveryStopsAt)
         } else {
             return "—"
         }
@@ -204,14 +205,6 @@ class OmniBLESettingsViewModel: ObservableObject {
         }
     }
     
-    let dateFormatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.timeStyle = .short
-        dateFormatter.dateStyle = .medium
-        dateFormatter.doesRelativeDateFormatting = true
-        return dateFormatter
-    }()
-    
     let timeFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.timeStyle = .short
@@ -219,10 +212,29 @@ class OmniBLESettingsViewModel: ObservableObject {
         return dateFormatter
     }()
     
-    let absDateFormatter: DateFormatter = {
+    let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.timeStyle = .short
         dateFormatter.dateStyle = .medium
+        dateFormatter.locale = Locale.current
+        dateFormatter.doesRelativeDateFormatting = true
+        return dateFormatter
+    }()
+    
+    let relDateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = .none
+        dateFormatter.dateStyle = .medium
+        dateFormatter.locale = Locale.current
+        dateFormatter.doesRelativeDateFormatting = true
+        return dateFormatter
+    }()
+    
+    let absDateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = .none
+        dateFormatter.dateStyle = .medium
+        dateFormatter.locale = Locale.current
         dateFormatter.doesRelativeDateFormatting = false
         return dateFormatter
     }()
@@ -232,6 +244,15 @@ class OmniBLESettingsViewModel: ObservableObject {
         fullDF.locale = Locale.current
         fullDF.setLocalizedDateFormatFromTemplate("E, hh:mm a")
         return fullDF
+    }()
+    
+    let relDateAndTimeFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = .short
+        dateFormatter.dateStyle = .medium
+        dateFormatter.locale = Locale.current
+        dateFormatter.doesRelativeDateFormatting = true
+        return dateFormatter
     }()
 
     let timeRemainingFormatter: DateComponentsFormatter = {

@@ -356,12 +356,15 @@ struct OmniBLESettingsView: View  {
                 HStack {
                     if let expiresAt = viewModel.expiresAt, expiresAt < Date() {
                         FrameworkLocalText("Pod Expired", comment: "Label for pod expiration row, past tense")
+                        Spacer()
+                        Text(self.viewModel.expiresAtString)
+                            .foregroundColor(Color.red)
                     } else {
                         FrameworkLocalText("Pod Expires", comment: "Label for pod expiration row")
+                        Spacer()
+                        Text(self.viewModel.expiresAtString)
+                            .foregroundColor(Color.secondary)
                     }
-                    Spacer()
-                    Text(self.viewModel.expiresAtString)
-                        .foregroundColor(Color.secondary)
                 }
                 
                 if let serviceTimeRemainingTI = Optional(viewModel.serviceTimeRemainingTI), serviceTimeRemainingTI < Pod.serviceDuration - Pod.nominalPodLife {
